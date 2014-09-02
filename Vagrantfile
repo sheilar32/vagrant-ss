@@ -30,10 +30,6 @@ master.vm.provision :pe_bootstrap do |pe|
 pe.role = :master
 end
 
-config.vm.provision "shell", 
-	inline: "service iptables stop"
-	end
-
 ## agent 1
 	config.vm.define :agent1 do |agent|
   config.vm.provision :shell, path: "agent1.sh"
