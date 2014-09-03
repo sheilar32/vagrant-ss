@@ -3,6 +3,7 @@
 # Perform a few steps first
 /opt/puppet/bin/puppet module install zack/r10k
 /sbin/service iptables stop
+/bin/mkdir -p /etc/puppetlabs/puppet/environments
 
 # Place the r10k configuration file
 cat > /var/tmp/configure_r10k.pp << 'EOF'
@@ -22,3 +23,6 @@ EOF
 
 # Now, apply your new configuration
 /opt/puppet/bin/puppet apply /var/tmp/configure_r10k.pp
+
+# Do the first deployment run
+/usr/bin/r10k deploy environment -pv
