@@ -44,7 +44,7 @@ config.pe_build.download_root = "https://s3.amazonaws.com/pe-builds/released/#{p
 			pe.role   =  :agent
 			pe.master = 'master.puppetlabs.vm'
 		end
-  	development.vm.provision :shell, path: "agent1.sh"
+  	development.vm.provision :shell, path: "development.sh"
   end
 
 ## Testing
@@ -61,7 +61,7 @@ config.pe_build.download_root = "https://s3.amazonaws.com/pe-builds/released/#{p
 		pe.role   =  :agent
 		pe.master = 'master.puppetlabs.vm'
 	end
-  testing.vm.provision :shell, path: "agent2.sh"
+  testing.vm.provision :shell, path: "testing.sh"
 end
 
 ## Production
@@ -78,7 +78,7 @@ end
 		pe.role   =  :agent
 		pe.master = 'master.puppetlabs.vm'
 	end
-  production.vm.provision :shell, path: "agent3.sh"
+  production.vm.provision :shell, path: "production.sh"
 end
 
 ## Git

@@ -6,6 +6,7 @@ export PATH=$PATH:/opt/puppet/bin
 /sbin/service iptables stop
 /bin/mkdir -p /etc/puppetlabs/puppet/environments
 /bin/mkdir -p /etc/puppetlabs/puppet/hiera
+/bin/mkdir -p /etc/puppetlabs/facter/facts.d
 
 # Place the r10k configuration file
 cat > /var/tmp/configure_r10k.pp << 'EOF'
