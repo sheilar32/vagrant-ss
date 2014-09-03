@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Perform a few steps first
+export PATH=$PATH:/opt/puppet/bin
 /opt/puppet/bin/puppet module install zack/r10k
 /sbin/service iptables stop
 /bin/mkdir -p /etc/puppetlabs/puppet/environments
