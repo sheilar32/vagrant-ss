@@ -5,8 +5,6 @@ export PATH=$PATH:/opt/puppet/bin
 /opt/puppet/bin/puppet module install zack/r10k
 /sbin/service iptables stop
 /bin/mkdir -p /etc/puppetlabs/puppet/environments
-/bin/mkdir -p /etc/puppetlabs/puppet/hiera
-/bin/mkdir -p /etc/puppetlabs/facter/facts.d
 
 # Place the r10k configuration file
 cat > /var/tmp/configure_r10k.pp << 'EOF'
@@ -57,6 +55,9 @@ EOF
 
 # Now, apply your new configuration
 /opt/puppet/bin/puppet apply /var/tmp/configure_r10k.pp
+
+# Then configure directory environments
+/opt/puppet/bin/puppet apply /var/tmp/configure_directory_environments.pp
 
 # Do the first deployment run
 /usr/bin/r10k deploy environment -pv
