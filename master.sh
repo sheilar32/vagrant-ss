@@ -79,3 +79,4 @@ EOF
 
 # Restart Puppet to pick up the new hiera.yaml
 /sbin/service pe-puppet restart
+/sbin/service pe-httpd restart
