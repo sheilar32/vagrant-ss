@@ -24,7 +24,6 @@ EOF
 
 # Place the directory environments config file
 cat > /var/tmp/configure_directory_environments.pp << 'EOF'
-
 ######                           ######
 ##  Configure Directory Environments ##
 ######                           ######
@@ -50,7 +49,23 @@ ini_setting { 'Configure basemodulepath':
   setting => 'basemodulepath',
   value   => '$confdir/modules:/opt/puppet/share/puppet/modules',
 }
+EOF
 
+# Now place the hiera.yaml in the proper location
+cat > /etc/puppetlabs/puppet/hiera.yaml << 'EOF'
+---
+:backends:
+  - yaml
+:hierarchy:
+  - "%{clientcert}"
+  - "%{application_tier}"
+  - common
+:yaml:
+# datadir is empty here, so hiera uses its defaults:
+# - /var/lib/hiera on *nix
+# - %CommonAppData%\PuppetLabs\hiera\var on Windows
+# When specifying a datadir, make sure the directory exists.
+  :datadir: "/etc/puppetlabs/puppet/environments/%{environment}/hieradata"
 EOF
 
 # Now, apply your new configuration
@@ -61,3 +76,6 @@ EOF
 
 # Do the first deployment run
 /usr/bin/r10k deploy environment -pv
+
+# Restart Puppet to pick up the new hiera.yaml
+/sbin/service pe-puppet restart
