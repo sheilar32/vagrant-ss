@@ -20,9 +20,3 @@ vagrant plugin install vagrant-hosts
 vagrant plugin install vagrant-pe_build
 
 to prepare Vagrant to use the included Vagrantfile.
-
-TODO:
-
-Automatically install & provision r10k to talk to the git server and pull down a full sample repo
-for testing and development.
-
