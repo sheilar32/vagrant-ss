@@ -82,19 +82,19 @@ end
 end
 
 ## Git
-	config.vm.define :git do |git|
-	git.vm.provider :virtualbox do |v|
-		v.memory = 512
-		v.name = "git"
-		v.cpus = 1
-	end
-	git.vm.network :private_network,  ip: "10.10.100.114"
-	git.vm.hostname = 'git.puppetlabs.vm'
-	git.vm.provision :hosts
-	git.vm.provision :pe_bootstrap do |pe|
-		pe.role   =  :agent
-		pe.master = 'master.puppetlabs.vm'
-	end
+  config.vm.define :git do |git|
+  git.vm.provider :virtualbox do |v|
+    v.memory = 512
+    v.name = "git"
+    v.cpus = 1
+  end
+  git.vm.network :private_network,  ip: "10.10.100.114"
+  git.vm.hostname = 'git.puppetlabs.vm'
+  git.vm.provision :hosts
+  git.vm.provision :pe_bootstrap do |pe|
+    pe.role   =  :agent
+    pe.master = 'master.puppetlabs.vm'
+  end
   git.vm.provision :shell, path: "git.sh"
 end
 end
