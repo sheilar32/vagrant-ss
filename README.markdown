@@ -7,7 +7,6 @@ Puppet Agents 1-3, all customized to the following three environments:
 - development
 - testing
 - production
-- One Git Server with a full Git software installation
 
 REQUIRED:
 To use this module with your current Vagrant Implementation, you have to install two vagrant plugins:
@@ -18,6 +17,9 @@ To install the required plugins, on your local system simply run:
 
 vagrant plugin install vagrant-hosts
 vagrant plugin install vagrant-pe_build
+
+NOTE:  As of the release of OSX 10.10 Yosemite, the hostnames no longer work 
+and throw the errors regarding not being able to resolve names properly.
 
 to prepare Vagrant to use the included Vagrantfile.
 
