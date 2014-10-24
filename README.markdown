@@ -18,9 +18,6 @@ To install the required plugins, on your local system simply run:
 vagrant plugin install vagrant-hosts
 vagrant plugin install vagrant-pe_build
 
-NOTE:  As of the release of OSX 10.10 Yosemite, the hostnames no longer work 
-and throw the errors regarding not being able to resolve names properly.
-
 to prepare Vagrant to use the included Vagrantfile.
 
 TODO:
@@ -28,3 +25,4 @@ TODO:
 - Linux Testing
 - OSX regression
 - VMWare Fusion Support
+- Git Server based locally and master pointed to Git
