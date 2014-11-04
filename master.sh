@@ -9,7 +9,7 @@ export PATH=$PATH:/opt/puppet/bin
 # Place the r10k configuration file
 cat > /var/tmp/configure_r10k.pp << 'EOF'
 class { 'r10k':
-  version           => '1.3.2',
+  version           => '1.3.4',
   sources           => {
     'puppet' => {
       'remote'  => 'https://github.com/cvquesty/puppet_repository.git',
@@ -75,7 +75,7 @@ EOF
 /opt/puppet/bin/puppet apply /var/tmp/configure_directory_environments.pp
 
 # Do the first deployment run
-/usr/bin/r10k deploy environment -pv
+/opt/puppet/bin/r10k deploy environment -pv
 
 # Restart Puppet to pick up the new hiera.yaml
 /sbin/service pe-puppet restart
