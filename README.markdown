@@ -26,3 +26,4 @@ TODO:
 - OSX regression
 - VMWare Fusion Support
 - Git Server based locally and master pointed to Git
+- Sometimes the vagrant package will not download the Puppet Enterprise properly.  Needs resolution.
