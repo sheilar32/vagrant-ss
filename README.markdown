@@ -23,11 +23,11 @@ to prepare Vagrant to use the included Vagrantfile.
 NOTES:
 
 With the default installaiton of PE 3.7.1, the installer automatically creates the directory 
-/etc/puppetlabs/puppet/environments/production. <strong><font color="red"> As a result, when r10k attempts to deploy
+/etc/puppetlabs/puppet/environments/production. <strong>As a result, when r10k attempts to deploy
 to your instance, it fails because this directory already exists.  This is an artifact of the
 underlying Git operation that cannot clone to a pre-existing directory.  This is a known r10k
 issue, and is slated for the next release.  Until then, I am renaming this directory and 
-deploying into that location.</font></strong>
+deploying into that location.</strong>
 
 TODO:
 - Windows testing
