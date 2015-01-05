@@ -4,12 +4,11 @@
 export PATH=$PATH:/opt/puppet/bin
 /opt/puppet/bin/puppet module install zack/r10k
 /sbin/service iptables stop
-/bin/mkdir -p /etc/puppetlabs/puppet/environments
 
 # Place the r10k configuration file
 cat > /var/tmp/configure_r10k.pp << 'EOF'
 class { 'r10k':
-  version           => '1.3.4',
+  version           => '1.4.0',
   sources           => {
     'puppet' => {
       'remote'  => 'https://github.com/cvquesty/puppet_repository.git',
@@ -73,6 +72,9 @@ EOF
 
 # Then configure directory environments
 /opt/puppet/bin/puppet apply /var/tmp/configure_directory_environments.pp
+
+# Handle the r10k Bug
+/bin/mv /etc/puppetlabs/puppet/environments/production /etc/puppetlabs/puppet/environments/production-ORIG
 
 # Do the first deployment run
 /opt/puppet/bin/r10k deploy environment -pv

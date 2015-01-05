@@ -5,79 +5,133 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-config.vm.box = "centos-65-x64-nocm"
-config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-65-x64-virtualbox-nocm.box"
 
-pe_version = '3.3.2'
-config.pe_build.version       = pe_version
-config.pe_build.download_root = "https://s3.amazonaws.com/pe-builds/released/#{pe_version}"
+	# Define the Puppet Enterprise Version
+	config.pe_build.version = '3.7.1'
 
-## Master
-  config.vm.define :master do |master|
-	  master.vm.provider :virtualbox do |v|
-	    v.memory  = 1024
-      v.name = "master"
-	    v.cpus = 2
-	  end
+# Puppet Master VM
+	# Define the Master VM Characteristics
+	config.vm.define 'master' do |master|
+		master.vm.box = "centos-65-x64-nocm"
+		master.vm.network :private_network, :ip => '10.10.100.100'
+		master.vm.network "forwarded_port", guest: 443, host: 8443
+		master.vm.hostname = 'master.puppetlabs.vm'
 
-	  master.vm.network :private_network,  ip: "10.10.100.100"
-	  master.vm.network "forwarded_port", guest: 443, host: 8443
-	  master.vm.hostname = 'master.puppetlabs.vm'
-	  master.vm.provision :hosts
-	  master.vm.provision :pe_bootstrap do |pe|
-	    pe.role = :master
-	  end
-	  master.vm.provision :shell, path: "master.sh"
-  end
-
-## Development
-	config.vm.define :development do |development|
-		development.vm.provider :virtualbox do |v|
-      v.memory = 512
-      v.name = "development"
-      v.cpus = 1
-    end
-		development.vm.network :private_network,  ip: "10.10.100.111"
-		development.vm.hostname = 'development.puppetlabs.vm'
-		development.vm.provision :hosts
-		development.vm.provision :pe_bootstrap do |pe|
-			pe.role   =  :agent
-			pe.master = 'master.puppetlabs.vm'
+		# Configure Master VM Settings
+		master.vm.provider :virtualbox do |settings|
+			settings.memory = 2048
+			settings.name = "master_3.7"
+			settings.cpus = 2
 		end
-  	development.vm.provision :shell, path: "development.sh"
-  end
 
-## Testing
-	config.vm.define :testing do |testing|
-	testing.vm.provider :virtualbox do |v|
-  	v.memory = 512
-		v.name = "testing"
-		v.cpus = 1
-  end
-	testing.vm.network :private_network,  ip: "10.10.100.112"
-	testing.vm.hostname = 'testing.puppetlabs.vm'
-	testing.vm.provision :hosts
-	testing.vm.provision :pe_bootstrap do |pe|
-		pe.role   =  :agent
-		pe.master = 'master.puppetlabs.vm'
-	end
-  testing.vm.provision :shell, path: "testing.sh"
-end
+		# Add all hosts for environment
+   	master.vm.provision :hosts do |entries|
+			entries.add_host '10.10.100.100', ['master.puppetlabs.vm', 'master']
+			entries.add_host '10.10.100.111', ['development.puppetlabs.vm', 'development']
+			entries.add_host '10.10.100.112', ['testing.puppetlabs.vm', 'testing']
+			entries.add_host '10.10.100.113', ['production.puppetlabs.vm', 'production']
+		end
 
-## Production
-	config.vm.define :production do |production|
-	production.vm.provider :virtualbox do |v|
-		v.memory = 512
-		v.name = "production"
-		v.cpus = 1
+		# Set the PE Role of this node
+		master.vm.provision :pe_bootstrap do |provisioner|
+			provisioner.role = :master
+		end
+		master.vm.provision :shell, path: "master.sh"
 	end
-	production.vm.network :private_network,  ip: "10.10.100.113"
-	production.vm.hostname = 'production.puppetlabs.vm'
-	production.vm.provision :hosts
-	production.vm.provision :pe_bootstrap do |pe|
-		pe.role   =  :agent
-		pe.master = 'master.puppetlabs.vm'
+
+####################
+## Development VM ##
+####################
+	# Define the Development VM Characteristics
+	config.vm.define 'development' do |development|
+		development.vm.box = "centos-65-x64-nocm"
+		development.vm.network :private_network, :ip => '10.10.100.111'
+		development.vm.hostname = 'development.puppetlabs.vm'
+
+		# Configure Development VM Settings
+		development.vm.provider :virtualbox do |settings|
+			settings.memory = 512
+			settings.name = "development_3.7"
+			settings.cpus = 1
+		end
+
+		# Add all hosts for environment
+   	development.vm.provision :hosts do |entries|
+			entries.add_host '10.10.100.100', ['master.puppetlabs.vm', 'master']
+			entries.add_host '10.10.100.111', ['development.puppetlabs.vm', 'development']
+			entries.add_host '10.10.100.112', ['testing.puppetlabs.vm', 'testing']
+			entries.add_host '10.10.100.113', ['production.puppetlabs.vm', 'production']
+		end
+	
+		# Set the PE Role of this node
+		development.vm.provision :pe_bootstrap do |provisioner|
+			provisioner.role = :agent
+			provisioner.master = 'master.puppetlabs.vm'
+		end
+		development.vm.provision :shell, path: "development.sh"
 	end
-  production.vm.provision :shell, path: "production.sh"
-end
+
+################
+## Testing VM ##
+################
+	# Define the Testing VM Characteristics
+	config.vm.define 'testing' do |testing|
+		testing.vm.box = "centos-65-x64-nocm"
+		testing.vm.network :private_network, :ip => '10.10.100.112'
+		testing.vm.hostname = 'testing.puppetlabs.vm'
+
+		# Configure Testing VM Settings
+		testing.vm.provider :virtualbox do |settings|
+			settings.memory = 512
+			settings.name = "testing_3.7"
+			settings.cpus = 1
+		end
+
+		# Add all hosts for environment
+		testing.vm.provision :hosts do |entries|
+			entries.add_host '10.10.100.100', ['master.puppetlabs.vm', 'master']
+			entries.add_host '10.10.100.111', ['development.puppetlabs.vm', 'development']
+			entries.add_host '10.10.100.112', ['testing.puppetlabs.vm', 'testing']
+			entries.add_host '10.10.100.113', ['production.puppetlabs.vm', 'production']
+		end
+
+		# Set the PE Role of this node
+		testing.vm.provision :pe_bootstrap do |provisioner|
+			provisioner.role = :agent
+			provisioner.master = 'master.puppetlabs.vm'
+		end
+		testing.vm.provision :shell, path: "testing.sh"
+	end
+
+###################
+## Production VM ##
+###################
+	# Define the Production VM Characteristics
+	config.vm.define 'production' do |production|
+		production.vm.box = "centos-65-x64-nocm"
+		production.vm.network :private_network, :ip => '10.10.100.113'
+		production.vm.hostname = 'production.puppetlabs.vm'
+
+		# Configure Production VM Settings
+		production.vm.provider :virtualbox do |settings|
+			settings.memory = 512
+			settings.name = "production_3.7"
+			settings.cpus = 1
+		end
+
+		# Add all hosts for environment
+		production.vm.provision :hosts do |entries|
+			entries.add_host '10.10.100.100', ['master.puppetlabs.vm', 'master']
+			entries.add_host '10.10.100.111', ['development.puppetlabs.vm', 'development']
+			entries.add_host '10.10.100.112', ['testing.puppetlabs.vm', 'testing']
+			entries.add_host '10.10.100.113', ['production.puppetlabs.vm', 'production']
+		end
+
+		# Set the PE Role of this node
+		production.vm.provision :pe_bootstrap do |provisioner|
+			provisioner.role = :agent
+			provisioner.master = 'master.puppetlabs.vm'
+		end
+		production.vm.provision :shell, path: "production.sh"
+	end
 end
