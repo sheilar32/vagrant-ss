@@ -8,6 +8,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 	# Define the Puppet Enterprise Version
 	config.pe_build.version = '3.7.1'
+	config.pe_build.download_root = "https://s3.amazonaws.com/pe-builds/released/#{pe_version}"
 
 # Puppet Master VM
 	# Define the Master VM Characteristics
