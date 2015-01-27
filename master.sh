@@ -32,7 +32,7 @@ cat > /var/tmp/configure_directory_environments.pp << 'EOF'
 ##  directory environments.  Beware!
 
 # Default for ini_setting resources:
-ini_setting {
+Ini_setting {
   ensure => present,
   path   => "${::settings::confdir}/puppet.conf",
 }
