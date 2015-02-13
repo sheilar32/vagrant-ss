@@ -54,7 +54,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 		# Configure Development VM Settings
 		development.vm.provider :virtualbox do |settings|
-			settings.memory = 2048
+			settings.memory = 512
 			settings.name = "development_3.7"
 			settings.cpus = 1
 		end
