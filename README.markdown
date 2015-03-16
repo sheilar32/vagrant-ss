@@ -22,6 +22,12 @@ to prepare Vagrant to use the included Vagrantfile.
 
 NOTES:
 
+Because of GitHub's copious use of "master" as the default branch, you end up with a "master" 
+branch & directory environment.  Puppet Labs' documentation states that "master" is a reserved
+word, and cannot be used as an environment name.  So, you should refrain from using this 
+environment.  I plan on removing it in future versions of vagrant-ss, I just have to do 
+development in-between professional services engagements.
+
 With the default installaiton of PE 3.7.1, the installer automatically creates the directory 
 /etc/puppetlabs/puppet/environments/production. <strong>As a result, when r10k attempts to deploy
 to your instance, it fails because this directory already exists.  This is an artifact of the
@@ -33,12 +39,8 @@ Linux testing is now complete.  After a professional services engagement recentl
 number of students need to use the instance who were all Linux users, and they were able to
 "fire test" for me.  Issues, if any, should be opened on the project in the GitHub page.
 
-I'm still looking for Windows experts who have some extra cycles to figure out what the issue is
-and maybe do some pull requests!
 
 TODO:
-- Windows testing
-- OSX regression
 - VMWare Fusion Support
   - I have one pull request on VMWare Fusion, and it's a hacky sort of substitute,
     If anyone nows how to get the Vagrantfile to determine the right virtualization
@@ -46,3 +48,4 @@ TODO:
     "silver bullet" I'm looking for.
 - Git Server based locally and master pointed to Git
 - Sometimes the vagrant package will not download the Puppet Enterprise properly.  Needs resolution.
+- Look into removing the master branch, and only have "development, testing, and production" branches.
