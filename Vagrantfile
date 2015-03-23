@@ -12,8 +12,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	config.pe_build.download_root = "https://s3.amazonaws.com/pe-builds/released/#{pe_version}"
 
 	# Define the proper location to retrieve the Vagrant Box
-	config.vm.box = "centos-65-x64-nocm"
-	config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-65-x64-virtualbox-nocm.box"
+	config.vm.box = "puppetlabs/centos-65-x64-nocm"
+	# Commenting out URL for later removal
+	#config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-65-x64-virtualbox-nocm.box"
 
 # Puppet Master VM
 	# Define the Master VM Characteristics
