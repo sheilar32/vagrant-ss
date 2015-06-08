@@ -4,7 +4,7 @@
 
 Install Vagrant
 https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.2.msi
-(Installs to C:\Hashicorp\Vagrant\)
+<br>(Installs to C:\Hashicorp\Vagrant\)
 
 Install Virtualbox
 http://download.virtualbox.org/virtualbox/4.3.20/VirtualBox-4.3.20-96997-Win.exe
