@@ -25,7 +25,7 @@ Due to the way vagrant-pe_build handles temp files you will need to download the
 Download Puppet Package
 https://s3.amazonaws.com/pe-builds/released/3.7.1/puppet-enterprise-3.7.1-el-6-x86_64.tar.gz
 
-Move it to the C:\Users\<username>\.vagrant.d\.pe_builds directory.
+Move it to the C:\Users\<username>\.vagrant.d\\.pe_builds directory.
 
 Turn off windows firewall.
 
